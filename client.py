@@ -36,9 +36,11 @@ def search_headlines():
     if choice == "1":
         search_by_keyword()
     elif choice == "2":
-        search_by_category()
+        category = input("Enter a category: ")
+        search_by_category(category, "?category=")
     elif choice == "3":
-        search_by_country()
+        country = input("Enter a country: ")
+        search_by_country(country, "?country=")
     elif choice == "4":
         list_all_headlines()
     elif choice == "5":
@@ -47,29 +49,67 @@ def search_headlines():
         print("Invalid choice.")
 
 def list_of_sources():
-    print("Sources")
+    print("=" * 5, "List of Sources Menu", "=" * 5)
+    print('''
+        [1] Search by category 
+        [2] Search by country
+        [3] Search by language
+        [4] List all
+        [5] Back to the main menu
+        ''')
+    choice = input("Enter your choice (1-5): ")
+    if choice == "1":
+        category = input("Enter a category: ")
+        search_by_category(category, "/sources?category=")
+    elif choice == "2":
+        country = input("Enter a country: ")
+        search_by_country(country, "/sources?country=")
+    elif choice == "3":
+        search_by_language()
+    elif choice == "4":
+        list_all_sources()
+    elif choice == "5":
+        print("Going back")
+    else:
+        print("Invalid choice.")
 
 def search_by_keyword():
     keyword = input("Enter a keyword: ")
     print("Searching by keyword...")
-    print("q={}".format(keyword))
+    print("?q={}".format(keyword))
 
-def search_by_category():
+def search_by_category(category, url):
     categories = ["business", "entertainment", "general", "health", "science", "sports", "technology"]
     print("Searching by category...\n")
     print("Categories: business, entertainment, general, health, science, sports, technology")
-    category = input("Enter a category: ")
+    path = url + category
     if category in categories:
-        print("top-headlines?category={}".format(category))
+        print("top-headlines{}".format(path))
     else:
         print("Invalid Choice")
-def search_by_country():
-    country = input("Enter a country: ")
+def search_by_country(country, url):
+    countries = ["au", "nz", "ca", "ae", "sa", "gb", "us", "eg", "ma"]
     print("Searching by country...")
-    print("top-headlines?country={}".format(country))
+    if country in countries:
+        path = url + country
+        print("top-headlines{}".format(path))
+    else:
+        print("Invalid Choice")
+
+def search_by_language():
+    languages = ["ar", "en"]
+    print("Languages: ar (Arabic) , en (English)")
+    language = input("Enter a language: ")
+    if language in languages:
+        print("top-headlines/sources?language={}".format(language))
+    else:
+        print("Invalid choice.")
 
 def list_all_headlines():
     print("Listing all news headlines...")
+
+def list_all_sources():
+    print("Listing all sources...")
 
 
 def main():
