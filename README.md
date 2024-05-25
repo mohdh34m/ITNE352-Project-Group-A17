@@ -4,7 +4,7 @@ Creating a GitHub repository with a well-documented README file is a great way t
 ```markdown
 # Project Title
 
-News Exchange System
+Multithreaded News Client/Server Information System
 
 ## Project Description
 
