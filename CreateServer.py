@@ -5,8 +5,10 @@ import requests
 
 api_key = ""  # Replace with your API key
 
+group_id = "A17"
+
 # Function to retrieve news data from NewsAPI
-def get_news(client_socket, query, request_type):
+def get_news(client_socket, query, request_type, client_name):
     try:
         params = {
             'pageSize': 15
@@ -16,6 +18,9 @@ def get_news(client_socket, query, request_type):
 
         if api_result.status_code == 200:
             news_data = api_result.json()
+            file_name = f"{group_id}_{client_name}_{request_type}.json"
+            with open(file_name, 'w') as f:
+                json.dump(news_data, f, indent=4)
             if request_type == "headlines":
                 articles = [
                     {
@@ -68,7 +73,7 @@ def handle_client(client_socket, client_name, api_key):
             query = request_data.get('query')
 
             print(f"Request From {client_name}: Query: {query}, Type: {query_type}")
-            get_news(client_socket, query, query_type)
+            get_news(client_socket, query, query_type, client_name)
 
     except Exception as e:
         print(f"Error handling client {client_name}: {e}")
@@ -87,7 +92,7 @@ def main():
     server_socket.bind((host, port))
 
     # Listen for incoming connections
-    server_socket.listen(3)  # Max 3 simultaneous connections
+    server_socket.listen(5)
 
     print("Server listening on port", port)
 
