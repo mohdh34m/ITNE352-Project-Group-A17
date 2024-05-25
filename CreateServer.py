@@ -19,7 +19,7 @@ def get_news(client_socket, query, request_type, client_name):
         if api_result.status_code == 200:
             news_data = api_result.json()
             file_name = f"{group_id}_{client_name}_{request_type}.json"
-            with open(file_name, 'w') as f:
+            with open(file_name, 'a') as f:
                 json.dump(news_data, f, indent=4)
             if request_type == "headlines":
                 articles = [
