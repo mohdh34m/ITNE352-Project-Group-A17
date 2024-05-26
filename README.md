@@ -109,3 +109,7 @@ Main functionalities:
    - Documentation: [Tkinter Documentation](https://docs.python.org/3/library/tk.html)
    - Description: Tkinter is the standard GUI toolkit for Python, and its documentation is part of the official Python documentation.
 
+- **CTkMessagebox:**
+   - Documentation: [CTkMessagebox](https://github.com/Akascape/CTkMessagebox)
+   - Description: CTkMessagebox is a custom Tkinter module that provides enhanced messagebox functionality for Tkinter-based GUI applications.
+
