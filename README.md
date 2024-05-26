@@ -1,7 +1,5 @@
 # ITNE352-Project-Group-A17
-Creating a GitHub repository with a well-documented README file is a great way to share our project with each other and ensure that everyone can understand and use it effectively. Here's a template for the README file:
 
-```markdown
 # Project Title
 
 Multithreaded News Client/Server Information System
@@ -23,20 +21,22 @@ Spring 2024
 
 ## Table of Contents
 
-1. Requirements
-2. How to Run
-3. The Scripts
-4. Additional Concept
-5. Acknowledgments
-6. Conclusion
+1. [Requirements](#Requirements)
+2. [How to Run](#How-to-Run)
+3. [The Scripts](#The-Scripts)
+4. [Additional Concept](#Additional-Concept)
+5. [Acknowledgments](#Acknowledgments)
+6. [Conclusion](#Conclusion)
+7. [Resources](#Resources)
+
 
 ## Requirements
 
 To set up and run the project in a local environment, follow these steps:
 
 1. Install Python if not already installed (https://www.python.org/downloads/)
-2. Clone the repository to your local machine: `git clone https://github.com/yourusername/news-exchange-system.git`
-3. Navigate to the project directory: `cd news-exchange-system`
+2. Clone the repository to your local machine: `git clone https://github.com/mohdh34m/ITNE352-Project-Group-A17`
+3. Navigate to the project directory: `cd ITNE352-Project-Group-A17`
 4. Install required dependencies: `pip install -r requirements.txt`
 5. Obtain a NewsAPI API key from https://newsapi.org/ and replace `"YOUR_NEWSAPI_API_KEY"` in the server script with your actual API key.
 
@@ -50,49 +50,62 @@ To run the system:
 4. In another terminal or command prompt, start the client by running `python Client.py`.
 5. Follow the instructions on the client-side interface to interact with the server and retrieve news information.
 
+To run the system with GUI:
+
+1. Ensure you have completed all steps in the  [Requirements](#Requirements) section.
+2. Navigate to the project directory.
+3. Start the server by running python CreateServer.py.
+4. In another terminal or command prompt, start the GUI client by running python `client_gui.py`.
+
 ## The Scripts
 
 ### Server Script (CreateServer.py)
 
-The server script is responsible for handling client connections, fetching news data from NewsAPI.org, and responding to client requests.
+- The server script is responsible for handling client connections, fetching news data from NewsAPI.org, and responding to client requests.
 
 Main functionalities:
 - Handles client connections using sockets and threading.
 - Retrieves news data from NewsAPI.org using the `requests` library.
 - Parses client requests and sends appropriate responses back.
 
-```python
-# Insert relevant code snippets from CreateServer.py
-```
 
 ### Client Script (Client.py)
 
-The client script allows users to interact with the server and retrieve news information.
+- The client script allows users to interact with the server and retrieve news information.
 
 Main functionalities:
 - Establishes connection with the server using sockets.
 - Provides a menu-driven interface for users to search headlines, list sources, and quit.
 
-```python
-# Insert relevant code snippets from Client.py
-```
 
 ## Additional Concept
 
-[Describe any additional concepts used in the project and highlight the corresponding code and its functionality.]
+- Socket Programming: Using Python's socket module to communicate between client and server over a network.
+
+- Multithreading: Using multithreading techniques to handle several client connections simultaneously ensures responsiveness and efficiency.
+
+- API Integration: Using NewsAPI.org to retrieve real-time news data, showing the incorporation of external APIs into the project.
 
 ## Acknowledgments
 
-[Optional: Acknowledge any individuals, organizations, or resources that contributed to the project.]
+- This project could not have been completed without the wonderful resources and assistance offered by NewsAPI.org. Their extensive and up-to-date news database serves as the foundation of our application, allowing users to easily obtain current and relevant news information.
 
 ## Conclusion
 
-[Summarize the project and its goals. Discuss any challenges faced during development and potential future improvements.]
+- In Conclusion, the development of the News Socket Client/Server System marks a significant step toward mastering key concepts in network programming, API integration, and client-server architecture. The project exhibits a comprehensive approach to developing robust and scalable software solutions by carefully implementing error handling, logging, serialization, threading, and user interface enhancement.
+
 
 ## Resources
 
-[Optional: Include any additional resources, links, or references related to the project.]
+- **NewsAPI:**
+   - Documentation: [NewsAPI Documentation](https://newsapi.org/docs)
+   - Description: The official documentation for NewsAPI.org.
 
-```
+- **CustomTkinter:**
+   - Documentation: [CustomTkinter Documentation](https://customtkinter.tomschimansky.com/documentation/)
+   - Description: CustomTkinter is an extension of the Tkinter GUI toolkit in Python.
 
-we will customize this template to fit the specific details of our project. Once we have created our README file, we can push it to our GitHub repository along with our project files.
+- **Tkinter:**
+   - Documentation: [Tkinter Documentation](https://docs.python.org/3/library/tk.html)
+   - Description: Tkinter is the standard GUI toolkit for Python, and its documentation is part of the official Python documentation.
+

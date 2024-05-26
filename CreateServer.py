@@ -3,7 +3,7 @@ import threading
 import json
 import requests
 
-api_key = ""  # Replace with your API key
+api_key = "YOUR_NEWSAPI_API_KEY"  # Replace with your API key
 
 group_id = "A17"
 
