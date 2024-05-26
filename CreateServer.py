@@ -57,7 +57,6 @@ def get_news(client_socket, query, request_type, client_name):
 
 
 # Function to handle client connections
-
 def handle_client(client_socket, client_name, api_key):
     print(f"Connection from {client_name} has been established!")
 

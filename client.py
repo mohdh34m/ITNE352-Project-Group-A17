@@ -1,24 +1,31 @@
 import socket
 import json
 
+# Server connection details
 host = "127.0.0.1"
 port = 9999
 
+# Create and connect a socket to the server
 socket_c = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
 socket_c.connect((host, port))
 
+
 username = input("Enter you username: ")
 
+# send the username to the server
 socket_c.sendto(username.encode("ascii"),(host,port))
 
+# Function to send a simple request to the server
 def send_request(request):
     socket_c.send(request.encode())
 
+# Function to request data from the server with a specified type and query
 def request_data(query_type, query):
     request = json.dumps({'type': query_type, 'query': query})
     socket_c.send(request.encode())
 
+# Function to receive and decode the response from the server
 def receive_response():
     buffer = ''
     while True:
@@ -29,7 +36,7 @@ def receive_response():
         except json.JSONDecodeError:
             continue
 
-
+# Function to handle the main menu options
 def handle_main_menu():
     print("""
             Main Menu:
@@ -49,7 +56,7 @@ def handle_main_menu():
     else:
         print("Invalid choice.")
 
-
+# Function to handle search headlines menu
 def search_headlines():
     print("=" * 5 ,"Search headlines Menu", "=" * 5)
     print('''
@@ -75,6 +82,7 @@ def search_headlines():
         print("Invalid choice.")
         handle_main_menu()
 
+# Function to handle list of sources menu
 def list_of_sources():
     print("=" * 5, "List of Sources Menu", "=" * 5)
     print('''
@@ -100,11 +108,13 @@ def list_of_sources():
         print("Invalid choice.")
         handle_main_menu()
 
+# Function to search headlines by keyword
 def search_by_keyword():
     keyword = input("Enter a keyword: ")
     print("Searching by keyword...")
     request_data("headlines", "top-headlines?q={}".format(keyword))
 
+# Function to search by category
 def search_by_category(url, query_type):
     categories = ["business", "entertainment", "general", "health", "science", "sports", "technology"]
     print("Categories: business, entertainment, general, health, science, sports, technology")
@@ -116,6 +126,8 @@ def search_by_category(url, query_type):
     else:
         print("Invalid Choice")
         handle_main_menu()
+
+# Function to search by country
 def search_by_country(url, query_type):
     countries = ["au", "nz", "ca", "ae", "sa", "gb", "us", "eg", "ma"]
     print("Countries: au, nz, ca, ae, sa, gb, us, eg, ma")
@@ -128,7 +140,7 @@ def search_by_country(url, query_type):
         print("Invalid Choice")
         handle_main_menu()
 
-
+# Function to search by language
 def search_by_language():
     languages = ["ar", "en"]
     print("Languages: ar (Arabic) , en (English)")
@@ -139,15 +151,17 @@ def search_by_language():
         print("Invalid Choice")
         handle_main_menu()
 
-
+# Function to list all headlines
 def list_all_headlines():
     request_data("headlines", "top-headlines?q=\" \"")
     print("Searching...")
 
+# Function to list all sources
 def list_all_sources():
     request_data("sources", "top-headlines/sources?")
     print("Searching...")
 
+# Function to display a list of data
 def display_list(data, query_type):
     if query_type == 'headlines':
         headlines = data.get("data", [])
@@ -158,7 +172,7 @@ def display_list(data, query_type):
         for idx, source in enumerate(sources, 1):
             print(f"{idx}. Source: {source['source_name']}\n")
 
-
+# Function to display details of a selected item
 def display_details(data, query_type, index):
     response = data.get("data", [])
     item = response[index]
@@ -177,6 +191,7 @@ def display_details(data, query_type, index):
         print(f"URL: {item['url']}")
         print(f"Category: {item['category']}")
         print(f"Language: {item['language']}")
+
 def main():
     while True:
         if handle_main_menu() is False:

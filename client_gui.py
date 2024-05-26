@@ -5,20 +5,24 @@ from tkinter import Listbox, END, VERTICAL, RIGHT, LEFT, Y, BOTH
 from PIL import Image
 from CTkMessagebox import CTkMessagebox
 
-
+# Server connection details
 host = "127.0.0.1"
 port = 9999
 
+# Create and connect a socket to the server
 socket_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 socket_c.connect((host, port))
 
+# Function to send a simple request to the server
 def send_request(request):
     socket_c.send(request.encode())
 
+# Function to request data from the server with a specified type and query
 def request_data(query_type, query):
     request = json.dumps({'type': query_type, 'query': query})
     socket_c.send(request.encode())
 
+# Function to receive and decode the response from the server
 def receive_response():
     buffer = ''
     while True:
@@ -29,6 +33,7 @@ def receive_response():
         except json.JSONDecodeError:
             continue
 
+# Function to handle quitting the application
 def quit():
     msg = CTkMessagebox(title="Exit?", message="Do you want to close the program?",
                         icon="question", option_1="Cancel", option_2="Yes",
@@ -45,6 +50,7 @@ def quit():
         socket_c.send("exit".encode())
         root.quit()
 
+# Function to show an error message
 def show_error(title, message):
     CTkMessagebox(title=title, message=message, icon="cancel",
                         font= ("FiraCode Nerd Font Mono SemBd", 24),
@@ -54,14 +60,18 @@ def show_error(title, message):
                         fg_color="#1a1a2f",
                         bg_color="#1a1a2f")
 
+# images for the GUI buttons
 country_logo = ctk.CTkImage(light_image=Image.open("./images/flag.png"))
 category_logo = ctk.CTkImage(light_image=Image.open("./images/category.png"))
 list_logo = ctk.CTkImage(light_image=Image.open("./images/list.png"))
 back_logo = ctk.CTkImage(light_image=Image.open("./images/angle-double-left.png"))
 
+# Function to display the main menu
 def main_menu():
     clear_frame()
+    # Create a Label
     ctk.CTkLabel(main_frame, text="Main Menu", font=("FiraCode Nerd Font Mono SemBd", 24), text_color="#ffffff").pack(pady=20)
+    # Create a button
     ctk.CTkButton(main_frame, text="Search Headlines", command=search_headlines, height=40,
                     font= ("FiraCode Nerd Font Mono SemBd", 24),
                     text_color="#ffffff",
@@ -93,6 +103,7 @@ def main_menu():
                     fg_color= "#1a1a2f",
                     image=ctk.CTkImage(light_image=Image.open("./images/circle-xmark.png")),).pack(fill=ctk.X, padx=20, pady=10)
 
+# Function to display the search headlines menu
 def search_headlines():
     clear_frame()
     ctk.CTkLabel(main_frame, text="Search Headlines Menu", font=("FiraCode Nerd Font Mono SemBd", 24)).pack(pady=20)
@@ -147,6 +158,7 @@ def search_headlines():
                     fg_color= "#1a1a2f",
                     image=back_logo).pack(fill=ctk.X, padx=20, pady=10)
 
+# Function to display the list of sources menu
 def list_of_sources():
     clear_frame()
     ctk.CTkLabel(main_frame, text="List of Sources Menu", font=("FiraCode Nerd Font Mono SemBd", 24)).pack(pady=20)
@@ -201,6 +213,7 @@ def list_of_sources():
                     fg_color= "#1a1a2f",
                     image=back_logo).pack(fill=ctk.X, padx=20, pady=10)
 
+# Function to search by keyword
 def search_by_keyword():
     keyword = ctk.CTkInputDialog(title="Search by Keyword", text="Enter a keyword:",
                                 font=("FiraCode Nerd Font Mono SemBd", 24),
@@ -215,6 +228,7 @@ def search_by_keyword():
         request_data("headlines", f"top-headlines?q={keyword}")
         display_list("headlines")
 
+# Function to search by category
 def search_by_category(url, query_type):
     categories = ["business", "entertainment", "general", "health", "science", "sports", "technology"]
     category = ctk.CTkInputDialog(title="Search by Category", text="Enter a category:\n" + ", ".join(categories),
@@ -232,6 +246,7 @@ def search_by_category(url, query_type):
     else:
         show_error("Error", "Invalid category")
 
+# Function to search by country
 def search_by_country(url, query_type):
     countries = ["au", "nz", "ca", "ae", "sa", "gb", "us", "eg", "ma"]
     country = ctk.CTkInputDialog(title="Search by Country", text="Enter a country code:\n" + ", ".join(countries),
@@ -249,6 +264,7 @@ def search_by_country(url, query_type):
     else:
         show_error("Error", "Invalid country")
 
+# Function to search by language
 def search_by_language():
     languages = ["ar", "en"]
     language = ctk.CTkInputDialog(title="Search by Language", text="Enter a language code:\n" + ", ".join(languages),
@@ -266,31 +282,41 @@ def search_by_language():
     else:
         show_error("Error", "Invalid language")
 
+# Function to list all headlines
 def list_all_headlines():
     request_data("headlines", "top-headlines?q=\" \"")
     display_list("headlines")
 
+# Function to list all sources
 def list_all_sources():
     request_data("sources", "top-headlines/sources?")
     display_list("sources")
 
+# Function to display each headlines or source in a list
 def display_list(query_type):
+    # Receive the response from the server and extract the data
     response = receive_response()
     data = response.get("data", [])
     clear_frame()
 
+    # Create a label
     ctk.CTkLabel(main_frame, text="Results", font=("FiraCode Nerd Font Mono SemBd", 24)).pack(pady=20)
 
+    # Create a frame to hold the listbox and scrollbar
     listbox_frame = ctk.CTkFrame(main_frame)
     listbox_frame.pack(fill=BOTH, expand=True, padx=20, pady=10)
     
+    # Create a listbox to display the results
     listbox = Listbox(listbox_frame, activestyle='dotbox', font=("FiraCode Nerd Font Mono SemBd", 14), selectbackground="#6541f5")
     listbox.pack(side=LEFT, fill=BOTH, expand=True)
 
+    # Create a scrollbar for the listbox
     scrollbar = ctk.CTkScrollbar(listbox_frame, orientation=VERTICAL, command=listbox.yview)
     scrollbar.pack(side=RIGHT, fill=Y)
 
+    # connect the scrollbar to the listbox
     listbox.config(yscrollcommand=scrollbar.set)
+
 
     if query_type == 'headlines':
         for idx, article in enumerate(data):
@@ -307,6 +333,7 @@ def display_list(query_type):
             display_details(response, query_type, index)
 
     listbox.bind('<<ListboxSelect>>', on_select)
+    # a button to go back to the main menu
     ctk.CTkButton(main_frame, text="Back to Main Menu", command=main_menu, height=40,
                     font= ("FiraCode Nerd Font Mono SemBd", 24),
                     text_color="#ffffff",
@@ -317,6 +344,7 @@ def display_list(query_type):
                     corner_radius=20,
                     fg_color= "#1a1a2f").pack(fill=ctk.X, padx=20, pady=10)
 
+# Function to display the details of a selected source or headline when the client select an item from the list
 def display_details(data, query_type, index):
     item = data.get("data", [])[index]
     details = ""
@@ -349,12 +377,13 @@ def display_details(data, query_type, index):
     details_text.insert('1.0', details)
     details_text.configure(state='disabled')
 
+# Function to remove any content in the frame before updating to new content
 def clear_frame():
     for widget in main_frame.winfo_children():
         widget.destroy()
 
 
-
+# GUI setup
 root = ctk.CTk()
 root.title("News App")
 root.geometry("1100x580")
@@ -363,7 +392,7 @@ root.after(201, lambda :root.iconbitmap('./images/world-news.ico'))
 main_frame = ctk.CTkFrame(root, fg_color="#1a1a2f")
 main_frame.pack(fill=BOTH, expand=True)
 
-
+# popup for enter username
 username = ctk.CTkInputDialog(title="Username", text="Enter your username:",
                               font=("FiraCode Nerd Font Mono SemBd", 24),
                               fg_color="#1a1a2f",
