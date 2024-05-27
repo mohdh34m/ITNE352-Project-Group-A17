@@ -212,4 +212,8 @@ def main():
             print("There is no data")
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nProgram terminated by user.")
+        send_request("exit")
